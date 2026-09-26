@@ -1,0 +1,11 @@
+{
+  "name": "salescast-ai",
+  "version": "1.0.0",
+  "description": "SalesCast AI dashboard with backend-powered assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "license": "MIT"
+}

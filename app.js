@@ -1280,19 +1280,86 @@ charts.seasonal =
 
 
 /* =========================================
-   ACTION BUTTON
+   AI ASSISTANT
 ========================================= */
 
-function showAction(action) {
+async function askAssistant() {
 
-    alert(
-        action +
-        " selected!\n\n" +
-        "This AI assistant feature can be connected to your ML backend."
-    );
+    const promptInput =
+        document.getElementById("assistantPrompt");
+
+    const status =
+        document.getElementById("assistantStatus");
+
+    const responseBox =
+        document.getElementById("assistantResponse");
+
+    const category =
+        document.getElementById("categoryFilter").value;
+
+    const prompt =
+        (promptInput.value || "").trim();
+
+    status.textContent = "Thinking...";
+    responseBox.textContent = "Connecting to the AI backend...";
+
+    try {
+
+        const response = await fetch("/api/assistant", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                prompt: prompt || `Give me a strategy for ${category} revenue growth`,
+                category
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Assistant request failed");
+        }
+
+        responseBox.textContent = data.reply;
+        status.textContent = "AI Ready";
+
+    } catch (error) {
+
+        console.error(error);
+        responseBox.textContent =
+            "The backend assistant is unavailable right now. Please make sure the server is running.";
+
+        status.textContent = "Offline";
+
+    }
 
 }
 
+
+function showAction(action) {
+
+    const promptInput =
+        document.getElementById("assistantPrompt");
+
+    const selected =
+        document.getElementById("categoryFilter").value;
+
+    promptInput.value =
+        `Recommend a plan for ${action} in the ${selected} category.`;
+
+    askAssistant();
+
+}
+
+
+const assistantButton =
+    document.getElementById("askAssistantBtn");
+
+if (assistantButton) {
+    assistantButton.addEventListener("click", askAssistant);
+}
 
 
 /* =========================================

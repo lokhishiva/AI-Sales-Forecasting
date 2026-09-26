@@ -1343,6 +1343,59 @@ tbody tr:hover {
 
 
 /* =========================================
+   AI ASSISTANT PANEL
+========================================= */
+
+.assistant-panel {
+    margin-top: 30px;
+}
+
+.assistant-box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.assistant-box textarea {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(6, 11, 25, 0.45);
+    color: var(--text);
+    border-radius: 16px;
+    padding: 16px 18px;
+    font: inherit;
+    resize: vertical;
+    min-height: 90px;
+}
+
+.assistant-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.assistant-status {
+    color: #86efac;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.assistant-response {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 16px 18px;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+
+/* =========================================
    ACTIONS
 ========================================= */
 
