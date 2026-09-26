@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Sales Forecasting | SalesCast AI</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+          rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Animated Background -->
+    <div class="background">
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+
+    </div>
+
+
+    <!-- Floating Grid -->
+    <div class="grid-overlay"></div>
+
+
+    <!-- ============================= -->
+    <!-- NAVBAR -->
+    <!-- ============================= -->
+
+    <header class="navbar glass">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                AI
+            </div>
+
+            <div>
+
+                <h1>SalesCast AI</h1>
+
+                <span>
+                    Intelligent Revenue Forecasting
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-right">
+
+            <div class="model-status">
+
+                <span class="pulse-dot"></span>
+
+                <span>
+                    AI Model Active
+                </span>
+
+            </div>
+
+            <div
+                id="liveDate"
+                class="date">
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ============================= -->
+    <!-- MAIN -->
+    <!-- ============================= -->
+
+    <main class="container">
+
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div>
+
+                <div class="eyebrow">
+                    ✦ AI POWERED ANALYTICS
+                </div>
+
+                <h2>
+                    Revenue
+                    <span>Forecast Dashboard</span>
+                </h2>
+
+                <p>
+                    Predict future sales using AI-powered
+                    trend analysis and seasonal forecasting.
+                </p>
+
+            </div>
+
+
+            <div class="hero-controls glass">
+
+                <label for="categoryFilter">
+                    Product Category
+                </label>
+
+                <select
+                    id="categoryFilter"
+                    onchange="updateDashboard()">
+
+                    <option value="all">
+                        All Products
+                    </option>
+
+                    <option value="software">
+                        Software
+                    </option>
+
+                    <option value="hardware">
+                        Hardware
+                    </option>
+
+                    <option value="services">
+                        Services
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- METRIC CARDS -->
+        <!-- ============================= -->
+
+        <section class="metrics">
+
+
+            <div class="metric-card glass blue-glow">
+
+                <div class="metric-top">
+
+                    <span class="metric-icon">
+                        💰
+                    </span>
+
+                    <span class="metric-label">
+                        NEXT MONTH
+                    </span>
+
+                </div>
+
+                <h3 id="forecastRev">
+                    —
+                </h3>
+
+                <p id="forecastDelta"
+                   class="positive">
+                    —
+                </p>
+
+                <div class="progress">
+
+                    <span></span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card glass purple-glow">
+
+                <div class="metric-top">
+
+                    <span class="metric-icon">
+                        📊
+                    </span>
+
+                    <span class="metric-label">
+                        CURRENT MONTH
+                    </span>
+
+                </div>
+
+                <h3 id="currentRev">
+                    —
+                </h3>
+
+                <p id="currentDelta"
+                   class="positive">
+                    —
+                </p>
+
+                <div class="progress purple">
+
+                    <span></span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card glass green-glow">
+
+                <div class="metric-top">
+
+                    <span class="metric-icon">
+                        🎯
+                    </span>
+
+                    <span class="metric-label">
+                        ACCURACY
+                    </span>
+
+                </div>
+
+                <h3 id="accuracy">
+                    —
+                </h3>
+
+                <p>
+                    Model validation score
+                </p>
+
+                <div class="progress green">
+
+                    <span></span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card glass pink-glow">
+
+                <div class="metric-top">
+
+                    <span class="metric-icon">
+                        🚀
+                    </span>
+
+                    <span class="metric-label">
+                        TOP PRODUCT
+                    </span>
+
+                </div>
+
+                <h3
+                    id="topProduct"
+                    class="product-name">
+                    —
+                </h3>
+
+                <p
+                    id="topProductGrowth"
+                    class="positive">
+                    —
+                </p>
+
+                <div class="progress pink">
+
+                    <span></span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- MAIN FORECAST -->
+        <!-- ============================= -->
+
+        <section class="glass chart-card main-chart">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="section-tag">
+                        FORECAST ENGINE
+                    </div>
+
+                    <h3>
+                        Revenue Forecast vs Actual
+                    </h3>
+
+                    <p>
+                        18-month revenue projection
+                    </p>
+
+                </div>
+
+                <div class="ai-badge">
+                    ✦ AI FORECAST
+                </div>
+
+            </div>
+
+
+            <div class="legend">
+
+                <span>
+                    <i class="legend-blue"></i>
+                    Actual
+                </span>
+
+                <span>
+                    <i class="legend-green"></i>
+                    Forecast
+                </span>
+
+                <span>
+                    <i class="legend-purple"></i>
+                    Confidence
+                </span>
+
+            </div>
+
+
+            <div class="chart-wrapper large">
+                <canvas id="forecastChart"></canvas>
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- TWO COLUMN -->
+        <!-- ============================= -->
+
+        <section class="two-column">
+
+
+            <!-- CATEGORY -->
+            <div class="glass chart-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="section-tag">
+                            PERFORMANCE
+                        </div>
+
+                        <h3>
+                            Category Breakdown
+                        </h3>
+
+                        <p>
+                            Quarterly revenue
+                        </p>
+
+                    </div>
+
+                    <span class="mini-icon">
+                        📊
+                    </span>
+
+                </div>
+
+
+                <div class="chart-wrapper">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+
+            </div>
+
+
+
+            <!-- SEASONAL -->
+            <div class="glass chart-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="section-tag">
+                            SEASONAL AI
+                        </div>
+
+                        <h3>
+                            Seasonal Trend
+                        </h3>
+
+                        <p>
+                            Monthly seasonal index
+                        </p>
+
+                    </div>
+
+                    <span class="mini-icon">
+                        🌀
+                    </span>
+
+                </div>
+
+
+                <div class="chart-wrapper">
+                    <canvas id="seasonChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- PRODUCT TABLE -->
+        <!-- ============================= -->
+
+        <section class="glass table-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="section-tag">
+                        AI SIGNALS
+                    </div>
+
+                    <h3>
+                        Product Forecast
+                    </h3>
+
+                    <p>
+                        AI-generated product predictions
+                    </p>
+
+                </div>
+
+                <div class="signal-badge">
+                    ● LIVE
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Product
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Current
+                            </th>
+
+                            <th>
+                                Forecast
+                            </th>
+
+                            <th>
+                                Change
+                            </th>
+
+                            <th>
+                                Confidence
+                            </th>
+
+                            <th>
+                                Signal
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- AI INSIGHTS -->
+        <!-- ============================= -->
+
+        <section class="two-column">
+
+
+            <div class="glass insight-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="section-tag">
+                            ARTIFICIAL INTELLIGENCE
+                        </div>
+
+                        <h3>
+                            AI Insights
+                        </h3>
+
+                    </div>
+
+                    <span class="ai-brain">
+                        🤖
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="insightList"
+                    class="insights">
+                </div>
+
+            </div>
+
+
+
+            <div class="glass chart-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="section-tag">
+                            MODEL VALIDATION
+                        </div>
+
+                        <h3>
+                            Prediction Accuracy
+                        </h3>
+
+                        <p>
+                            Actual vs predicted
+                        </p>
+
+                    </div>
+
+                    <span class="accuracy-badge">
+                        MAPE
+                    </span>
+
+                </div>
+
+
+                <div class="chart-wrapper">
+                    <canvas id="perfChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- ACTIONS -->
+        <!-- ============================= -->
+
+        <section class="glass actions-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="section-tag">
+                        AI ASSISTANT
+                    </div>
+
+                    <h3>
+                        Suggested Actions
+                    </h3>
+
+                    <p>
+                        Explore opportunities using AI insights.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button onclick="showAction('Hardware Sales')">
+                    <span>⚡</span>
+                    Improve Hardware Sales
+                </button>
+
+                <button onclick="showAction('Seasonality')">
+                    <span>🌊</span>
+                    Optimize Seasonality
+                </button>
+
+                <button onclick="showAction('Forecast Models')">
+                    <span>🧠</span>
+                    Better Forecast Models
+                </button>
+
+                <button onclick="showAction('Planning')">
+                    <span>📅</span>
+                    Planning Recommendations
+                </button>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ============================= -->
+    <!-- FOOTER -->
+    <!-- ============================= -->
+
+    <footer>
+
+        <div>
+            <strong>SalesCast AI</strong>
+            <span>
+                Intelligent Sales Forecasting Platform
+            </span>
+        </div>
+
+        <span>
+            Built with HTML • CSS • JavaScript • Chart.js
+        </span>
+
+    </footer>
+
+
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+
+</body>
+
+</html>
